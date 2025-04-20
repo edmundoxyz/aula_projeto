@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:05,000
+{\color{blue}\text{Problema: Uma PG tem } $a_1 = 3$ \text{ e } $r = 2$. \text{ Encontre o 5\textsuperscript{o} termo e a soma dos 5 primeiros termos.}}
+
+2
+00:00:05,000 --> 00:00:08,000
+\text{Fórmula do termo geral de uma PG: } $a_n = a_1 \cdot r^{n-1}$
+
+3
+00:00:08,000 --> 00:00:11,000
+\text{Para o 5\textsuperscript{o} termo (}$n = 5$\text{): } $a_5 = 3 \cdot 2^{5-1}$
+
+4
+00:00:11,000 --> 00:00:14,000
+$a_5 = 3 \cdot 2^4 = 3 \cdot 16 = 48$
+
+5
+00:00:14,000 --> 00:00:17,000
+\text{O 5\textsuperscript{o} termo é } $a_5 = 48$.
+
+6
+00:00:17,000 --> 00:00:22,000
+\text{Fórmula da soma dos } $n$ \text{ primeiros termos: } $S_n = a_1 \cdot \frac{r^n - 1}{r - 1}$, \text{ para } $r \neq 1$.
+
+7
+00:00:22,000 --> 00:00:26,000
+\text{Para } $n = 5$, $a_1 = 3$, $r = 2$\text{: } $S_5 = 3 \cdot \frac{2^5 - 1}{2 - 1}$
+
+8
+00:00:26,000 --> 00:00:29,000
+$S_5 = 3 \cdot \frac{32 - 1}{1} = 3 \cdot 31 = 93$
+
+9
+00:00:29,000 --> 00:00:32,000
+\text{A soma dos 5 primeiros termos é } $S_5 = 93$.

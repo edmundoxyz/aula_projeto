@@ -1,0 +1,31 @@
+1
+00:00:01,000 --> 00:00:04,000
+\text{Equacao: } $x^2 - 5x + 6 = 0$
+
+2
+00:00:05,000 --> 00:00:08,000
+\text{Identifique os coeficientes: } $a = 1$, $b = -5$, $c = 6$
+
+3
+00:00:09,000 --> 00:00:12,000
+\text{Formula de Bhaskara: } $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$
+
+4
+00:00:13,000 --> 00:00:16,000
+\text{Calcule o discriminante: } $\Delta = b^2 - 4ac$
+
+5
+00:00:17,000 --> 00:00:20,000
+$\Delta = (-5)^2 - 4 \cdot 1 \cdot 6 = 25 - 24 = 1$
+
+6
+00:00:21,000 --> 00:00:24,000
+\text{Substitua na formula: } $x = \frac{-(-5) \pm \sqrt{1}}{2 \cdot 1}$
+
+7
+00:00:25,000 --> 00:00:28,000
+$x = \frac{5 \pm 1}{2}$
+
+8
+00:00:29,000 --> 00:00:32,000
+\text{Solucoes: } $x_1 = \frac{5 + 1}{2} = 3$, \quad $x_2 = \frac{5 - 1}{2} = 2$
