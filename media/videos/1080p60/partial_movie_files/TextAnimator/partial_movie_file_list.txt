@@ -1,2 +1,8 @@
 # This file is used internally by FFMPEG.
-file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/uncached_00000.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3529212410_1369781373_2358810818.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_401271339_4017541741.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_147282372_80805142.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_364502056_1007530058.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_3770542466_2991881605.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_3125682996_2680722482.mp4'
+file 'file:C:/Users/edmun/math_video_dashboard/media/videos/1080p60/partial_movie_files/TextAnimator/3040924799_2408024828_692195730.mp4'
