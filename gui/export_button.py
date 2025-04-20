@@ -2,36 +2,27 @@ import tkinter as tk
 from tkinter import messagebox
 from video.video_exporter import VideoExporter
 
-class ExportButton:
-    def __init__(self, root, config, text_input, settings_panel):
-        self.root = root
-        self.config = config
-        self.text_input = text_input
-        self.settings_panel = settings_panel
-        self.button = tk.Button(root, text="Exportar Vídeo", command=self.export)
-        self.button.pack(pady=10)
+class ExportButton(tk.Button):
+    def __init__(self, parent, main_window):
+        super().__init__(parent, text="Exportar Vídeo", command=self.export_video)
+        self.main_window = main_window
 
-    def export(self):
-        self.button.config(state="disabled")
-        self.root.update()
+    def export_video(self):
         try:
-            # Atualiza o tamanho da fonte antes de exportar
-            try:
-                self.config.font_size = int(self.settings_panel.font_size.get())
-                print(f"Atualizando tamanho da fonte para: {self.config.font_size}")  # Depuração
-            except (ValueError, tk.TclError):
-                print("Erro ao atualizar o tamanho da fonte, usando valor padrão.")
-                pass
-
-            text = self.text_input.get_text()
-            if not text and not self.config.subtitle_path:
-                messagebox.showwarning("Aviso", "Por favor, insira um texto ou carregue uma legenda antes de exportar.")
+            srt_file = self.main_window.srt_file  # Arquivo .srt selecionado
+            if not srt_file:
+                messagebox.showerror("Erro", "Nenhum arquivo .srt selecionado!")
                 return
-            subtitle_path = self.config.subtitle_path
-            exporter = VideoExporter(self.config)
-            exporter.export(text, subtitle_path)
-            messagebox.showinfo("Sucesso", "Vídeo exportado com sucesso: output_video.mp4")
+            
+            # Verificar se o arquivo existe
+            import os
+            if not os.path.exists(srt_file):
+                messagebox.showerror("Erro", f"Arquivo .srt não encontrado: {srt_file}")
+                return
+            
+            font_size = int(self.main_window.settings_panel.font_size.get())  # Tamanho da fonte da GUI
+            exporter = VideoExporter(srt_file=srt_file, font_size=font_size)
+            exporter.export()
+            messagebox.showinfo("Sucesso", "Vídeo exportado com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", f"Falha ao exportar vídeo: {str(e)}")
-        finally:
-            self.button.config(state="normal")

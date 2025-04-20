@@ -1,0 +1,7 @@
+1
+00:00:00,000 --> 00:00:05,000
+[color=blue][latex][size=50]Enunciado: $2 + 3 = ?$
+
+2
+00:00:05,001 --> 00:00:10,000
+[color=green][size=30]Resolução: 2 + 3 = 5
