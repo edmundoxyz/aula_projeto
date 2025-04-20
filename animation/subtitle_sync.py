@@ -61,7 +61,6 @@ def parse_srt_with_colors(srt_file):
                 })
             else:
                 i += 1
-    
     return subtitles
 
 def get_subtitle_timings(time_str):

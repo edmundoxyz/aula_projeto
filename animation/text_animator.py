@@ -1,4 +1,4 @@
-from manim import Scene, Text, Tex, FadeIn, FadeOut, Dot, MoveToTarget
+from manim import Scene, Text, Tex, FadeIn, FadeOut, Dot, MoveToTarget, WHITE
 
 class TextAnimator(Scene):
     def __init__(self, srt_file, font_size=40):
