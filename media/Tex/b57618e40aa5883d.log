@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=latex 2025.4.19)  20 APR 2025 16:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=latex 2025.4.19)  20 APR 2025 16:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./media/Tex/46b13560fec6eb54.tex
-(media/Tex/46b13560fec6eb54.tex
+**./media/Tex/b57618e40aa5883d.tex
+(media/Tex/b57618e40aa5883d.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Program Files\MiKTeX\tex/latex/standalone\standalone.cls
@@ -163,8 +163,9 @@ File: l3backend-dvips.def 2024-01-04 L3 backend support: dvips
 \g__pdf_backend_annotation_int=\count280
 \g__pdf_backend_link_int=\count281
 \g__pdf_backend_link_sf_int=\count282
-) (C:\Users\edmun\math_video_dashboard\media\Tex\46b13560fec6eb54.aux)
-\openout1 = `46b13560fec6eb54.aux'.
+)
+No file b57618e40aa5883d.aux.
+\openout1 = `b57618e40aa5883d.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
@@ -181,24 +182,18 @@ LaTeX Font Info:    ... okay on input line 5.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
 Preview: Fontsize 10pt
-LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
-(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
-(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-! Undefined control sequence.
-l.7 ... 2 & 3 \\ 1 & 4 \end{pmatrix} \). \nEscolha
-                                                   a alternativa correta: \n...
- 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ad = 2 \cdot
+                 4 = 8 
 Here is how much of TeX's memory you used:
- 3448 strings out of 474486
- 55817 string characters out of 5753575
+ 3410 strings out of 474486
+ 55071 string characters out of 5753575
  1924539 words of memory out of 5000000
- 25723 multiletter control sequences out of 15000+600000
- 559768 words of font info for 44 fonts, out of 8000000 for 9000
+ 25700 multiletter control sequences out of 15000+600000
+ 558069 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,9n,71p,268b,184s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,2n,71p,244b,106s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
 No pages of output.

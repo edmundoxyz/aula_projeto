@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=latex 2025.4.19)  20 APR 2025 16:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=latex 2025.4.19)  20 APR 2025 16:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./media/Tex/18730d7c1bf2ca6e.tex
-(media/Tex/18730d7c1bf2ca6e.tex
+**./media/Tex/fb7f08ed1282a83d.tex
+(media/Tex/fb7f08ed1282a83d.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Program Files\MiKTeX\tex/latex/standalone\standalone.cls
@@ -163,9 +163,8 @@ File: l3backend-dvips.def 2024-01-04 L3 backend support: dvips
 \g__pdf_backend_annotation_int=\count280
 \g__pdf_backend_link_int=\count281
 \g__pdf_backend_link_sf_int=\count282
-)
-No file 18730d7c1bf2ca6e.aux.
-\openout1 = `18730d7c1bf2ca6e.aux'.
+) (C:\Users\edmun\math_video_dashboard\media\Tex\fb7f08ed1282a83d.aux)
+\openout1 = `fb7f08ed1282a83d.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
@@ -182,30 +181,18 @@ LaTeX Font Info:    ... okay on input line 5.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
 Preview: Fontsize 10pt
-LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
-(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
-(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-! LaTeX Error: Command \end{pmatrix} invalid in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8 \end{center}
-                 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 A = \begin{pmatrix}
+                        2 & 3 \\ 1 & 4 \end{pmatrix} 
 Here is how much of TeX's memory you used:
- 3446 strings out of 474486
- 55801 string characters out of 5753575
+ 3413 strings out of 474486
+ 55236 string characters out of 5753575
  1924539 words of memory out of 5000000
- 25722 multiletter control sequences out of 15000+600000
- 559768 words of font info for 44 fonts, out of 8000000 for 9000
+ 25701 multiletter control sequences out of 15000+600000
+ 558069 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,8n,71p,244b,193s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,2n,71p,244b,106s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 No pages of output.

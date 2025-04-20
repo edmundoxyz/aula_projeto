@@ -1,4 +1,4 @@
-from manim import Scene, Text, Tex, FadeIn, FadeOut, Dot, MoveToTarget, WHITE, UP, DOWN, LEFT
+from manim import Scene, Text, Tex, FadeIn, FadeOut, Dot, MoveToTarget, WHITE, UP, DOWN, LEFT, VGroup, RIGHT
 import re
 
 class TextAnimator(Scene):
@@ -26,72 +26,44 @@ class TextAnimator(Scene):
             # Usar tamanho da fonte do .srt ou da GUI
             font_size = subtitle['font_size'] if subtitle['font_size'] is not None else self.default_font_size
             
-            # Dividir o texto em linhas (usando \n no .srt)
-            raw_text = subtitle['text']
-            # Converter \n para \\ se for modo LaTeX, mas apenas dentro de ambientes matemáticos
-            if subtitle['use_latex']:
-                # Substituir \n por \\ apenas dentro de \( ... \)
-                def replace_newline(match):
-                    return match.group(0).replace('\n', '\\\\')
-                raw_text = re.sub(r'\\\(.*?\\\)', replace_newline, raw_text, flags=re.DOTALL)
-                # Fora do ambiente matemático, \n será tratado como quebra de linha normal
-                lines = raw_text.split('\n')
-            else:
-                lines = raw_text.split('\n')
-            
+            # Dividir o texto em linhas usando \n
+            lines = subtitle['text'].split('\n')
             text_objects = []
             y_position = self.margin_top  # Começar no topo da caixa
             
-            # Criar objetos de texto para cada linha
+            # Processar cada linha
             for line in lines:
                 line = line.strip()
                 if not line:  # Ignorar linhas vazias
                     continue
                 
-                # Verificar se a linha contém expressões matemáticas
-                has_math = re.search(r'\\\(.*?\\\)', line) is not None
+                # Dividir a linha em partes matemáticas e não matemáticas
+                parts = re.split(r'(\\\(.*?\\\)|\\\[.*?\\\]|\$.*?\$)', line)
+                line_objects = []
+                current_x = self.margin_left  # Começar na margem esquerda
                 
-                if subtitle['use_latex'] and has_math:
-                    # Linha contém matemática, usar Tex
-                    try:
-                        text = Tex(line, color=subtitle['color'], font_size=font_size)
-                    except Exception as e:
-                        # Se houver erro no LaTeX, fallback para Text
-                        print(f"Erro ao compilar LaTeX na linha '{line}': {str(e)}")
-                        text = Text(line, color=subtitle['color'], font_size=font_size)
-                else:
-                    # Linha não contém matemática ou não está no modo LaTeX, usar Text
-                    text = Text(line, color=subtitle['color'], font_size=font_size)
-                
-                # Alinhar à esquerda e posicionar na margem esquerda
-                text.align_to([self.margin_left, y_position, 0], LEFT)
-                
-                # Ajustar y_position para a próxima linha
-                # Estimar a altura da linha (aproximadamente font_size/40 unidades por linha)
-                line_height = font_size / 40
-                y_position -= line_height  # Mover para baixo para a próxima linha
-                
-                text_objects.append(text)
-            
-            # Verificar se o texto ultrapassa a margem inferior
-            if y_position < self.margin_bottom:
-                # Calcular o deslocamento necessário para que a última linha fique acima da margem inferior
-                shift_up = self.margin_bottom - y_position + line_height
-                for text in text_objects:
-                    text.shift(shift_up * UP)  # Deslocar todas as linhas para cima
-            
-            # Agrupar todos os objetos de texto
-            text_group = self.camera.frame.create_group(*text_objects)
-            
-            # Adicionar animação de texto
-            self.play(FadeIn(text_group))
-            
-            # Animação do cursor para cada linha
-            for i, text in enumerate(text_objects):
-                cursor.move_to(text.get_left())
-                cursor.generate_target()
-                cursor.target.move_to(text.get_right())
-                # Duração proporcional ao número de linhas
-                self.play(MoveToTarget(cursor), run_time=(end_time - start_time) / len(text_objects))
-            
-            self.play(FadeOut(text_group), FadeOut(cursor))
+                for part in parts:
+                    part = part.strip()
+                    if not part:
+                        continue
+                    
+                    # Verificar se a parte é uma expressão matemática
+                    is_math = re.match(r'^\\\(.*?\\\)$|^\\\[.*?\\\]$|^\$.*?\$', part)
+                    
+                    if subtitle['use_latex'] and is_math:
+                        # Parte é uma expressão matemática, usar Tex
+                        # Remover os delimitadores \( \) ou $ $ para o Tex
+                        if part.startswith('\\(') and part.endswith('\\)'):
+                            part = part[2:-2]
+                        elif part.startswith('$') and part.endswith('$'):
+                            part = part[1:-1]
+                        try:
+                            text_part = Tex(part, color=subtitle['color'], font_size=font_size)
+                        except Exception as e:
+                            print(f"Erro ao compilar LaTeX na parte '{part}': {str(e)}")
+                            text_part = Text(part, color=subtitle['color'], font_size=font_size)
+                    else:
+                        # Parte não é matemática, usar Text
+                        text_part = Text(part, color=subtitle['color'], font_size=font_size)
+                    
+                    # Pos
