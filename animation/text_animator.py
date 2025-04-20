@@ -1,4 +1,4 @@
-from manim import Scene, Text, Tex, Circle, Write, WHITE, RIGHT, UP, FadeOut, MoveToTarget, AnimationGroup
+from manim import Scene, Text, Tex, Circle, Write, WHITE, RIGHT, UP, LEFT, FadeOut, MoveToTarget, AnimationGroup
 import re
 
 class TextAnimator(Scene):
@@ -13,7 +13,7 @@ class TextAnimator(Scene):
         # Carregar legendas com cores, LaTeX e tamanho da fonte
         subtitles = parse_srt_with_colors(self.srt_file)
         
-        # Definir margens fixas (valores do código anterior)
+        # Definir margens fixas
         left_margin = -6.5  # Margem de 0.5 unidades à esquerda (tela vai de x=-7 a x=7)
         right_margin = 5.0  # Margem de 2 unidades à direita
         top_margin = 3.6  # Margem de 0.4 unidades no topo (tela vai de y=-4 a y=4)
@@ -31,20 +31,32 @@ class TextAnimator(Scene):
             # Usar tamanho da fonte do .srt ou da GUI
             font_size = subtitle['font_size'] if subtitle['font_size'] is not None else self.default_font_size
             
-            # Verifica se o texto atingiu a parte inferior
-            if y_offset < bottom_margin:
+            # Dividir o texto em linhas usando \n
+            lines = subtitle['text'].split('\n')
+            
+            # Contar linhas não vazias para este subtitle
+            valid_lines = [line for line in lines if line.strip()]
+            num_lines = len(valid_lines)
+            if num_lines == 0:
+                continue  # Pula se não houver linhas válidas
+            
+            # Verifica se o texto atingirá a margem inferior
+            lowest_y = y_offset - (num_lines - 1) * line_spacing
+            if lowest_y < bottom_margin:
                 # Move todos os textos existentes para cima
+                shift_amount = (bottom_margin - lowest_y) + line_spacing
                 for text_obj in text_objects:
                     text_obj.generate_target()
-                    text_obj.target.shift(UP * line_spacing)
+                    text_obj.target.shift(UP * shift_amount)
                 self.play(
                     *[MoveToTarget(text_obj) for text_obj in text_objects],
                     run_time=0.5
                 )
-                y_offset += line_spacing  # Ajusta y_offset para a nova linha
+                # Ajusta y_offset para todos os textos já renderizados
+                y_offset += shift_amount
+                print(f"Após rolagem, novo y_offset: {y_offset}")
             
-            # Dividir o texto em linhas usando \n
-            lines = subtitle['text'].split('\n')
+            # Renderizar cada linha na posição correta
             for line in lines:
                 line = line.strip()
                 if not line:  # Ignorar linhas vazias
@@ -86,13 +98,13 @@ class TextAnimator(Scene):
                     line = line.replace('\\n', '').replace('\\\\', '')
                     text_obj = Text(line, font_size=font_size, color=subtitle['color'])
                 
-                # Escala o texto
+                # Escala o texto ANTES de posicionar
                 scale_factor = font_size / 48.0
                 text_obj.scale(scale_factor * 2)
                 
                 # Posiciona o texto alinhado à esquerda, ajustando y
                 text_obj.align_to([left_margin, y_offset, 0], LEFT)
-                print(f"Posição do texto: esquerda={text_obj.get_left()}, topo={text_obj.get_top()}")
+                print(f"Renderizando linha na posição y={y_offset}: {line}")
                 
                 # Sincroniza o cursor com a escrita
                 cursor = Circle(radius=0.1, color=WHITE).move_to(text_obj.get_left())
@@ -102,8 +114,8 @@ class TextAnimator(Scene):
                 try:
                     self.play(
                         AnimationGroup(
-                            Write(text_obj, run_time=duration / len(lines)),
-                            MoveToTarget(cursor, run_time=duration / len(lines))
+                            Write(text_obj, run_time=duration / num_lines),
+                            MoveToTarget(cursor, run_time=duration / num_lines)
                         )
                     )
                     self.play(FadeOut(cursor))
@@ -112,7 +124,7 @@ class TextAnimator(Scene):
                     raise
                 
                 text_objects.append(text_obj)
-                y_offset -= line_spacing  # Desce uma linha com espaçamento fixo
+                y_offset -= line_spacing  # Desce para a próxima linha
             
             self.wait(max(0, duration - 1))
         
