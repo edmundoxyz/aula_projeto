@@ -5,10 +5,10 @@ class TextAnimator(Scene):
     def __init__(self, srt_file, font_size=40):
         self.srt_file = srt_file
         self.default_font_size = font_size  # Tamanho padrão da GUI
-        self.margin_top = 3.5  # Margem superior (y = 3.5)
-        self.margin_bottom = -3.5  # Margem inferior (y = -3.5)
-        self.margin_left = -6.61  # Margem esquerda (x = -6.61)
-        self.margin_right = 6.61  # Margem direita (x = 6.61)
+        self.margin_top = 3.0  # Margem superior reduzida
+        self.margin_bottom = -3.0  # Margem inferior reduzida
+        self.margin_left = -6.0  # Margem esquerda reduzida
+        self.margin_right = 6.0  # Margem direita reduzida
         super().__init__()
 
     def construct(self):
@@ -38,7 +38,8 @@ class TextAnimator(Scene):
                     continue
                 
                 # Dividir a linha em partes matemáticas e não matemáticas
-                parts = re.split(r'(\\\(.*?\\\)|\\\[.*?\\\]|\$.*?\$)', line)
+                # Usar uma regex mais robusta para capturar expressões matemáticas
+                parts = re.split(r'(\\\(.*?\\\)|\\\[.*?\\\]|\$.*?\$)', line, flags=re.DOTALL)
                 line_objects = []
                 current_x = self.margin_left  # Começar na margem esquerda
                 
@@ -48,11 +49,11 @@ class TextAnimator(Scene):
                         continue
                     
                     # Verificar se a parte é uma expressão matemática
-                    is_math = re.match(r'^\\\(.*?\\\)$|^\\\[.*?\\\]$|^\$.*?\$', part)
+                    is_math = bool(re.match(r'^\\\(.*?\\\)$|^\\\[.*?\\\]$|^\$.*?\$', part))
                     
                     if subtitle['use_latex'] and is_math:
                         # Parte é uma expressão matemática, usar Tex
-                        # Remover os delimitadores \( \) ou $ $
+                        # Remover os delimitadores \( \), \[ \], ou $ $
                         if part.startswith('\\(') and part.endswith('\\)'):
                             part = part[2:-2]
                         elif part.startswith('\\[') and part.endswith('\\]'):
@@ -67,21 +68,23 @@ class TextAnimator(Scene):
                             text_part = Text(part, color=subtitle['color'], font_size=font_size)
                     else:
                         # Parte não é matemática, usar Text
+                        # Substituir barras duplas (\\) por uma única barra (\) para evitar exibição de código bruto
+                        part = part.replace('\\\\', '')
                         text_part = Text(part, color=subtitle['color'], font_size=font_size)
                     
                     # Posicionar a parte na linha
                     text_part.align_to([current_x, y_position, 0], LEFT)
                     line_objects.append(text_part)
                     
-                    # Atualizar a posição x para a próxima parte
-                    current_x += text_part.get_width()
+                    # Atualizar a posição x para a próxima parte, adicionando um pequeno espaço
+                    current_x += text_part.get_width() + 0.1  # Pequeno espaço entre partes
                 
                 # Agrupar as partes da linha
                 line_group = VGroup(*line_objects)
                 
                 # Ajustar y_position para a próxima linha
                 line_height = font_size / 40
-                y_position -= line_height
+                y_position -= line_height + 0.2  # Pequeno espaço entre linhas
                 
                 text_objects.extend(line_objects)
             
