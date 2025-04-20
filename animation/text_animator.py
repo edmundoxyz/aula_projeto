@@ -52,13 +52,16 @@ class TextAnimator(Scene):
                     
                     if subtitle['use_latex'] and is_math:
                         # Parte é uma expressão matemática, usar Tex
-                        # Remover os delimitadores \( \) ou $ $ para o Tex
+                        # Remover os delimitadores \( \) ou $ $
                         if part.startswith('\\(') and part.endswith('\\)'):
+                            part = part[2:-2]
+                        elif part.startswith('\\[') and part.endswith('\\]'):
                             part = part[2:-2]
                         elif part.startswith('$') and part.endswith('$'):
                             part = part[1:-1]
                         try:
-                            text_part = Tex(part, color=subtitle['color'], font_size=font_size)
+                            # Envolver a expressão em $...$ para garantir o modo matemático
+                            text_part = Tex(f"${part}$", color=subtitle['color'], font_size=font_size)
                         except Exception as e:
                             print(f"Erro ao compilar LaTeX na parte '{part}': {str(e)}")
                             text_part = Text(part, color=subtitle['color'], font_size=font_size)
@@ -66,4 +69,41 @@ class TextAnimator(Scene):
                         # Parte não é matemática, usar Text
                         text_part = Text(part, color=subtitle['color'], font_size=font_size)
                     
-                    # Pos
+                    # Posicionar a parte na linha
+                    text_part.align_to([current_x, y_position, 0], LEFT)
+                    line_objects.append(text_part)
+                    
+                    # Atualizar a posição x para a próxima parte
+                    current_x += text_part.get_width()
+                
+                # Agrupar as partes da linha
+                line_group = VGroup(*line_objects)
+                
+                # Ajustar y_position para a próxima linha
+                line_height = font_size / 40
+                y_position -= line_height
+                
+                text_objects.extend(line_objects)
+            
+            # Verificar se o texto ultrapassa a margem inferior
+            if y_position < self.margin_bottom:
+                # Calcular o deslocamento necessário para que a última linha fique acima da margem inferior
+                shift_up = self.margin_bottom - y_position + line_height
+                for text in text_objects:
+                    text.shift(shift_up * UP)  # Deslocar todas as linhas para cima
+            
+            # Agrupar todos os objetos de texto
+            text_group = VGroup(*text_objects)
+            
+            # Adicionar animação de texto
+            self.play(FadeIn(text_group))
+            
+            # Animação do cursor para cada linha
+            for i, text in enumerate(text_objects):
+                cursor.move_to(text.get_left())
+                cursor.generate_target()
+                cursor.target.move_to(text.get_right())
+                # Duração proporcional ao número de objetos de texto
+                self.play(MoveToTarget(cursor), run_time=(end_time - start_time) / len(text_objects))
+            
+            self.play(FadeOut(text_group), FadeOut(cursor))
