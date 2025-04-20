@@ -1,4 +1,5 @@
 from manim import Scene, Text, Tex, FadeIn, FadeOut, Dot, MoveToTarget, WHITE, UP, DOWN, LEFT
+import re
 
 class TextAnimator(Scene):
     def __init__(self, srt_file, font_size=40):
@@ -27,10 +28,17 @@ class TextAnimator(Scene):
             
             # Dividir o texto em linhas (usando \n no .srt)
             raw_text = subtitle['text']
-            # Converter \n para \\ se for modo LaTeX
+            # Converter \n para \\ se for modo LaTeX, mas apenas dentro de ambientes matemáticos
             if subtitle['use_latex']:
-                raw_text = raw_text.replace('\n', '\\\\')
-            lines = raw_text.split('\\\\') if subtitle['use_latex'] else raw_text.split('\n')
+                # Substituir \n por \\ apenas dentro de \( ... \)
+                def replace_newline(match):
+                    return match.group(0).replace('\n', '\\\\')
+                raw_text = re.sub(r'\\\(.*?\\\)', replace_newline, raw_text, flags=re.DOTALL)
+                # Fora do ambiente matemático, \n será tratado como quebra de linha normal
+                lines = raw_text.split('\n')
+            else:
+                lines = raw_text.split('\n')
+            
             text_objects = []
             y_position = self.margin_top  # Começar no topo da caixa
             
@@ -39,9 +47,20 @@ class TextAnimator(Scene):
                 line = line.strip()
                 if not line:  # Ignorar linhas vazias
                     continue
-                if subtitle['use_latex']:
-                    text = Tex(line, color=subtitle['color'], font_size=font_size)
+                
+                # Verificar se a linha contém expressões matemáticas
+                has_math = re.search(r'\\\(.*?\\\)', line) is not None
+                
+                if subtitle['use_latex'] and has_math:
+                    # Linha contém matemática, usar Tex
+                    try:
+                        text = Tex(line, color=subtitle['color'], font_size=font_size)
+                    except Exception as e:
+                        # Se houver erro no LaTeX, fallback para Text
+                        print(f"Erro ao compilar LaTeX na linha '{line}': {str(e)}")
+                        text = Text(line, color=subtitle['color'], font_size=font_size)
                 else:
+                    # Linha não contém matemática ou não está no modo LaTeX, usar Text
                     text = Text(line, color=subtitle['color'], font_size=font_size)
                 
                 # Alinhar à esquerda e posicionar na margem esquerda
